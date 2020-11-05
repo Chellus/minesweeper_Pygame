@@ -2,11 +2,11 @@
 
 ## Description
 
-TODO
+Minesweeper clone using pygame.
 
 ## How to install the project
 
-TODO
+Run the command ```pip install pygame``` in command line, then run the main.py script
 
 
 Created by: Elias Riveros
