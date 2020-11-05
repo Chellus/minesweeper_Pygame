@@ -30,23 +30,29 @@ def generate_board():
 
     bomb_counter = 0
 
+    # fill the board with 0's
     for i in range(board_h):
         row = []
         for j in range(board_w):
-            aux = random.randint(0, 50)
-
-            if aux <= 30:
-                row.append(0)
-            else:
-                if bomb_counter < bombs: # we only add a bomb if the limit has not been reached yet
-                    row.append(20) # 20 is the bomb number
-                    bomb_counter += 1
-                else: # if the limit has been reached, we can't add a bomb
-                    row.append(0)
+            row.append(0)
         board.append(row)
 
-    print(board)
-    print(bomb_counter)
+    # generate the bombs
+    for i in range(1, bombs):
+        aux_x = random.randint(0, 14)
+        aux_y = random.randint(0, 19)
+
+        while board[aux_y][aux_x] < 0:
+            aux_x = random.randint(0, 14)
+            aux_y = random.randint(0, 19)
+
+        board[aux_y][aux_x] = -20 # the number for the board is a negative number
+
+    # print the board to the terminal
+    for i in range(20):
+        for j in range(15):
+            print(str(board[i][j]), end = ' ')
+        print('')
 
 # in this function we draw the grid to the window
 def draw_grid():
