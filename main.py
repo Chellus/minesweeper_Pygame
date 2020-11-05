@@ -48,9 +48,18 @@ def generate_board():
 
         board[aux_y][aux_x] = -20 # the number for the board is a negative number
 
+    # count adjacent mines to a square
+    for i in range(board_h):
+        for j in range(board_w):
+            if board[i][j] >= 0: # if this block isn't a mine
+                 for k in range(-1, 1):
+                     for l in range(-1, 1):
+                         if board[i + k][j + l] < 0:
+                             board[i][j] += 1
+
     # print the board to the terminal
-    for i in range(20):
-        for j in range(15):
+    for i in range(board_h):
+        for j in range(board_w):
             print(str(board[i][j]), end = ' ')
         print('')
 
