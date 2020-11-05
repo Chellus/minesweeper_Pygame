@@ -7,4 +7,3 @@
 [ ] Let the blocks know how many bombs are touching them
 [ ] Make the game playable
 [ ] Create a start menu
-[ ] ...
