@@ -37,55 +37,24 @@ def generate_board():
             row.append(0)
         board.append(row)
 
-    # generate the bombs
-    for i in range(1, bombs):
-        aux_x = random.randint(0, 14)
-        aux_y = random.randint(0, 19)
+    # generate the bombs, they can't be generated on the edges
+    for i in range(bombs):
+        aux_x = random.randint(1, 13)
+        aux_y = random.randint(1, 18)
 
         while board[aux_y][aux_x] < 0:
-            aux_x = random.randint(0, 14)
-            aux_y = random.randint(0, 19)
+            aux_x = random.randint(1, 13)
+            aux_y = random.randint(1, 18)
 
         board[aux_y][aux_x] = -20 # the number for the board is a negative number
 
     # count adjacent mines to a square
-    for i in range(board_h):
-        for j in range(board_w):
-            if board[i][j] >= 0: # if this block isn't a mine
-                for k in range(-1, 1):
-                    for l in range(-1, 1):
-                         #if board[i + k][j + l] < 0:
-                             #board[i][j] += 1
-                        if i == 0:
-                            if j == 0:
-                                pass
-                            elif j == board_w - 1:
-                                pass
-                            else:
-
-                        elif i == board_h - 1:
-                            if j == 0:
-                                pass
-                            elif j == board_w - 1:
-                                pass
-                            else:
-
-                        elif j == 0:
-                            if i == 0:
-                                pass
-                            if i == board_h - 1:
-                                pass
-                            else:
-                                pass
-                        elif j == board_w - 1:
-                            if i == 0:
-                                pass
-                            if j == 0:
-                                pass
-                            
-                        else:
-                            if board[i + k][j + l] < 0:
-                                board[i][j] += 1
+    for i in range(1, board_h - 1):
+        for j in range(1, board_w - 1):
+            if board[i][j] < 0: # if this block is a mine
+                for k in range(-1, 2):
+                    for l in range(-1, 2):
+                             board[i + k][j + l] += 1
 
 
     # print the board to the terminal
