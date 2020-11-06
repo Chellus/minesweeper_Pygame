@@ -52,10 +52,41 @@ def generate_board():
     for i in range(board_h):
         for j in range(board_w):
             if board[i][j] >= 0: # if this block isn't a mine
-                 for k in range(-1, 1):
-                     for l in range(-1, 1):
-                         if board[i + k][j + l] < 0:
-                             board[i][j] += 1
+                for k in range(-1, 1):
+                    for l in range(-1, 1):
+                         #if board[i + k][j + l] < 0:
+                             #board[i][j] += 1
+                        if i == 0:
+                            if j == 0:
+                                pass
+                            elif j == board_w - 1:
+                                pass
+                            else:
+
+                        elif i == board_h - 1:
+                            if j == 0:
+                                pass
+                            elif j == board_w - 1:
+                                pass
+                            else:
+
+                        elif j == 0:
+                            if i == 0:
+                                pass
+                            if i == board_h - 1:
+                                pass
+                            else:
+                                pass
+                        elif j == board_w - 1:
+                            if i == 0:
+                                pass
+                            if j == 0:
+                                pass
+                            
+                        else:
+                            if board[i + k][j + l] < 0:
+                                board[i][j] += 1
+
 
     # print the board to the terminal
     for i in range(board_h):
