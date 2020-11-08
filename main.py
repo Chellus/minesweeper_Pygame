@@ -19,7 +19,7 @@ clock = pygame.time.Clock() # pygame clock
 # load bomb, numbers and flag images
 numbersImg = []
 
-for i in range(1, 9):
+for i in range(9):
     numbersImg.append(pygame.image.load('resources/n' + str(i) + '.png'))
 
 bombImg = pygame.image.load('resources/bomb.png')
@@ -28,7 +28,7 @@ flagImg = pygame.image.load('resources/flag.png')
 # colors
 white = (255, 255, 255)
 black = (0, 0, 0)
-light_grey = (180, 180, 180)
+light_grey = (150, 150, 150)
 
 # our board
 board = []
@@ -81,9 +81,21 @@ def draw_grid():
             rect = pygame.Rect(x * block_size, y * block_size, block_size, block_size)
             pygame.draw.rect(window, black, rect, 1)
 
+# button function
+def block_press(x, y, img=None):
+    block_size = 30
+
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x + block_size > mouse[0] > x and y + block_size > mouse[1] > y:
+        if click[0] == 1:
+            if img != None:
+                window.blit(img, (x, y))
+
+
 # in this function we draw the numbers and the bomb to the grid
 def draw_board():
-    global board
     block_size = 30
 
     for x in range((window_w // block_size) - 150 // block_size):
@@ -99,18 +111,29 @@ def draw_board():
 # main game loop
 def game_loop():
     running = True
+    block_size = 30
 
     generate_board()
     window.fill(light_grey)
 
     while running:
         draw_grid()
-        draw_board()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # if the close button of the window is pressed, exit
                 pygame.quit()
                 quit()
+
+        for x in range((window_w // block_size) - 150 // block_size):
+            for y in range((window_h // block_size)):
+                if board[y][x] < 0: # if this block contains a bomb
+                    block_press(x * block_size, y * block_size, bombImg)
+                elif board[y][x] == 0: # if there isn't a bomb adjacent to this block
+                    block_press(x * block_size, y * block_size, numbersImg[0])
+                else: # if there are bombs adjacent to this block
+                    for i in range(1, 9):
+                        if board[y][x] == i:
+                            block_press(x * block_size, y * block_size, numbersImg[i])
 
         pygame.display.update()
         clock.tick(30) # we set the clock to 30 frames per second
