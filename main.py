@@ -12,8 +12,18 @@ board_w = 15
 board_h = 20
 bombs = 40
 
+# create window and clock
 window = pygame.display.set_mode((window_w, window_h))
 clock = pygame.time.Clock() # pygame clock
+
+# load bomb, numbers and flag images
+numbersImg = []
+
+for i in range(1, 9):
+    numbersImg.append(pygame.image.load('resources/n' + str(i) + '.png'))
+
+bombImg = pygame.image.load('resources/bomb.png')
+flagImg = pygame.image.load('resources/flag.png')
 
 # colors
 white = (255, 255, 255)
@@ -71,16 +81,31 @@ def draw_grid():
             rect = pygame.Rect(x * block_size, y * block_size, block_size, block_size)
             pygame.draw.rect(window, black, rect, 1)
 
+# in this function we draw the numbers and the bomb to the grid
+def draw_board():
+    global board
+    block_size = 30
+
+    for x in range((window_w // block_size) - 150 // block_size):
+        for y in range((window_h // block_size)):
+            if board[y][x] < 0: # if this block contains a bomb
+                window.blit(bombImg, (x * block_size, y * block_size))
+            else: # if it doesn't
+                for i in range(1, 10):
+                    if board[y][x] == i:
+                        window.blit(numbersImg[i - 1], (x * block_size, y * block_size))
+
+
 # main game loop
 def game_loop():
     running = True
 
     generate_board()
-
     window.fill(light_grey)
 
     while running:
         draw_grid()
+        draw_board()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # if the close button of the window is pressed, exit
